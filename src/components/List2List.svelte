@@ -24,7 +24,7 @@
       output = JSON.stringify(List2List({ input, delimiter, type, structure, otherInputs, inputOptions }), null, 2);
     }
     else {
-      output = "List: "+JSON.stringify(List2List({ input, delimiter, type, structure, otherInputs, inputOptions }), null, 2).replace(/\",/g, "\";")+";";
+      output = "List = "+JSON.stringify(List2List({ input, delimiter, type, structure, otherInputs, inputOptions }), null, 2).replace(/\",/g, "\";")+";";
     }
   }
 
