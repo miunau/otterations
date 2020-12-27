@@ -1,6 +1,9 @@
 function clean(input, options) {
-  if(options.indexOf('removeWhitespace') > -1) {
+  if(options.indexOf('removeAllWhitespace') > -1) {
     input = input.replace(/\s/g,'');
+  }
+  if(options.indexOf('removeWhitespace') > -1) {
+    input = input.trim();
   }
   if(options.indexOf('removeQuotes') > -1) {
     input = input.replace(/['"]+/g, '');

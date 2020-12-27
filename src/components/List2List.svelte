@@ -7,6 +7,7 @@
   let output = '';
   let delimiter = ',';
   let type = 'json: enum';
+  let inputOptions = ['removeWhitespace', 'removeQuotes'];
   let types = [
     'json: array',
     'json: enum',
@@ -20,6 +21,9 @@
 }`
 
   function transform() {
+    if(inputOptions.indexOf('removeAllWhitespace') > -1) {
+      inputOptions = inputOptions.filter(i => i !== 'removeWhitespace');
+    }
     if(!type.startsWith('matlab')) {
       output = JSON.stringify(List2List({ input, delimiter, type, structure, otherInputs, inputOptions }), null, 2);
     }
@@ -55,8 +59,6 @@
     await tick();
     transform();
   }
-
-  let inputOptions = ['removeWhitespace', 'removeQuotes'];
 
   onMount(() => {
     transform();
@@ -140,7 +142,11 @@
       <div class="checkboxes">
         <div class="checkbox">
           <input type="checkbox" bind:group={inputOptions} value="removeWhitespace" id="l2e-remove-whitespace" on:change={transform} />
-          <label for="l2e-remove-whitespace">Remove all whitespace</label>
+          <label for="l2e-remove-whitespace">Remove leading and trailing whitespace</label>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" bind:group={inputOptions} value="removeAllWhitespace" id="l2e-remove-all-whitespace" on:change={transform} />
+          <label for="l2e-remove-all-whitespace">Remove all whitespace</label>
         </div>
         <div class="checkbox">
           <input type="checkbox" bind:group={inputOptions} value="removeQuotes" id="l2e-remove-quotes" on:change={transform} />
