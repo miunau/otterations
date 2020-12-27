@@ -1,7 +1,7 @@
 <script>
   import { tick } from 'svelte';
   
-    import List2JSON from '../lib/List2JSON';
+    import List2List from '../lib/List2List';
   
     let input = '';
     let output = '';
@@ -16,13 +16,12 @@
     ];
   
     function transform() {
-      output = JSON.stringify(List2JSON({ input, delimiter, type, structure }), null, 2);
+      output = JSON.stringify(List2List({ input, delimiter, type, structure }), null, 2);
     }
   
-    async function showme(e) {
+    function showme(e) {
       e.preventDefault();
       input = 'foo,\nbar,\nbaz';
-      await tick();
       transform();
     }
   

@@ -1,5 +1,5 @@
 <script>
-	import List2JSON from "./components/List2JSON.svelte";
+	import List2List from "./components/List2List.svelte";
 	import Case2Case from "./components/Case2Case.svelte";
 import { onMount } from "svelte";
 
@@ -9,12 +9,12 @@ import { onMount } from "svelte";
 			component: Case2Case
 		},
 		{
-			name: "List2JSON",
-			component: List2JSON
+			name: "List2List",
+			component: List2List
 		}
 	];
 
-	let currentOp = "List2JSON";
+	let currentOp = "List2List";
 
 	onMount(() => {
 		if(window.location.hash) {
