@@ -1,6 +1,6 @@
 <script>
   import { onMount, tick } from 'svelte';
-  import List2List from '../lib/List2List';
+  import List2List, { types } from '../lib/List2List';
 
   let input = 'foo,bar,baz';
   let otherInputs = [];
@@ -8,28 +8,13 @@
   let delimiter = ',';
   let type = 'json: enum';
   let inputOptions = ['removeWhitespace', 'removeQuotes'];
-  let types = [
-    'json: array',
-    'json: enum',
-    'json: collection',
-    'json: dictionary',
-    'matlab: list'
-  ];
   let structure = `{
   id: "key_"+key,
   index: index
 }`
 
   function transform() {
-    if(inputOptions.indexOf('removeAllWhitespace') > -1) {
-      inputOptions = inputOptions.filter(i => i !== 'removeWhitespace');
-    }
-    if(!type.startsWith('matlab')) {
-      output = JSON.stringify(List2List({ input, delimiter, type, structure, otherInputs, inputOptions }), null, 2);
-    }
-    else {
-      output = "List = "+JSON.stringify(List2List({ input, delimiter, type, structure, otherInputs, inputOptions }), null, 2).replace(/\",/g, "\";")+";";
-    }
+    output = List2List({ input, delimiter, type, structure, otherInputs, inputOptions });
   }
 
   function addInput(e) {
@@ -40,10 +25,6 @@
     structure = `{
   id: key,
   index: index,
-  arr1d: ["arr1d_"+key, index, {
-    "key": "arr1d_obj_"+key,
-    "index": "arr1d_obj_"+index
-  }],
   otter: true,
   otter_image: inputs[0][index]
 }`;

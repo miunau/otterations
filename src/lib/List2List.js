@@ -29,9 +29,13 @@ function parseDictionary(input, structure, inputs) {
   return output;
 }
 
-function parseMatlabList(input, structure, otherInputs) {
-  return input;
-}
+export const types = [
+  'json: array',
+  'json: enum',
+  'json: collection',
+  'json: dictionary',
+  'matlab: list'
+];
 
 export default function List2List({
   input,
@@ -71,10 +75,14 @@ export default function List2List({
       output = parseDictionary(input, structure, otherInputs);
       break;
     case 'matlab: list':
-      output = parseMatlabList(input, structure, otherInputs);
+      output = "List = "+JSON.stringify(input, null, 2).replace(/\",/g, "\";")+";";
       break;
   }
+  
+  if(type.startsWith('matlab')) {
+    return output;
+  }
 
-  return output;
+  return JSON.stringify(output, null, 2);
 
 }
