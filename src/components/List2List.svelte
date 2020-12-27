@@ -33,7 +33,6 @@
   }
 
   async function showme(e) {
-    otherInputs = ['cute_otter.png, another_otter.png, otters_holding_hands.png'];
     structure = `{
   id: key,
   index: index,
@@ -46,9 +45,11 @@
 }`;
     input = 'foo,\nbar,\n\n   baz\n,\n\ntest\n\ntest,';
     if(e === 'json') {
+      otherInputs = ['cute_otter.png, another_otter.png, otters_holding_hands.png'];
       type = 'json: collection';
     }
     else if (e === 'matlab') {
+      otherInputs = [];
       type = 'matlab: list';
     }
     await tick();
@@ -81,6 +82,9 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    border-top: 1px solid #ccc;
+    padding-top: 24px;
+    margin-top: 24px;
     padding-bottom: 12px;
   }
   .io .input {
@@ -115,6 +119,8 @@
     <li>A MatLab list. <a on:click={(e) => { e.preventDefault(); showme('matlab'); }}>Show me!</a></li>
   </ul>
 
+  <p><a href="https://github.com/miunau/otterations">Github</a></p>
+
   <div class="io">
     <div class="input">
 
@@ -134,7 +140,7 @@
       <div class="checkboxes">
         <div class="checkbox">
           <input type="checkbox" bind:group={inputOptions} value="removeWhitespace" id="l2e-remove-whitespace" on:change={transform} />
-          <label for="l2e-remove-whitespace">Remove whitespace from beginning and end</label>
+          <label for="l2e-remove-whitespace">Remove all whitespace</label>
         </div>
         <div class="checkbox">
           <input type="checkbox" bind:group={inputOptions} value="removeQuotes" id="l2e-remove-quotes" on:change={transform} />
