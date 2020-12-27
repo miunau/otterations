@@ -25,7 +25,7 @@
     structure = `{
   id: key,
   index: index,
-  otter: true,
+  otter: otter: inputs[0][index] !== undefined,
   otter_image: inputs[0][index]
 }`;
     input = 'foo,\nbar,\n\n   baz\n,\n\ntest\n\ntest,';
