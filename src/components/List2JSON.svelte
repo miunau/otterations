@@ -4,6 +4,7 @@ import { onMount, tick } from 'svelte';
   import List2JSON from '../lib/List2JSON';
 
   let input = 'foo,bar,baz';
+  let otherInputs = [];
   let output = '';
   let delimiter = ',';
   let type = 'enum';
@@ -13,7 +14,12 @@ import { onMount, tick } from 'svelte';
     'collection',
     'dictionary'
   ];
-  let structure = '{\n  "id": "[KEY]",\n  "index": "[INDEX]"\n}';
+  let structure = `{
+  id: "[KEY]",
+  index: [INDEX],
+  foo: 6
+}`
+
   let keyAttr = 'id';
 
   function transform() {
@@ -22,7 +28,33 @@ import { onMount, tick } from 'svelte';
 
   async function showme(e) {
     e.preventDefault();
-    input = 'foo,\nbar,\n\n   baz';
+    structure = `{
+  id: "[KEY]",
+  index: [INDEX],
+  arr1d: ["arr1d_[KEY]", [INDEX], {
+    "key": "arr1d_obj_[KEY]",
+    "index": "arr1d_obj_[INDEX]"
+  }],
+  "arr2d": [
+    ["arr2d_[KEY]"],
+    ["arr2d_[INDEX]"],
+    [{
+      "key": "arr2d_obj_[KEY]",
+      "index": "arr2d_obj_[INDEX]"
+    }]
+  ],
+  "obj": {
+    "key": "obj_[KEY]",
+    "index": [INDEX],
+    "obj_arr1d": ["obj_arr1d_[KEY]", "obj_arr1d_[INDEX]"],
+    "obj_arr2d": [
+      ["obj_arr2d_[KEY]"],
+      ["obj_arr2d_[INDEX]"]
+    ]
+  }
+}`;
+    input = 'foo,\nbar,\n\n   baz\n,\n\ntest\n\ntest,';
+    type = 'collection';
     transform();
   }
 
@@ -46,11 +78,13 @@ import { onMount, tick } from 'svelte';
     padding-bottom: 12px;
   }
   .io .input {
-    flex-grow: 1;
+    flex: 1 1;
+    width: 50%;
     padding-right: 12px;
   }
   .io .output {
-    flex-grow: 1;
+    flex: 1 1;
+    width: 50%;
     padding-left: 12px;
   }
   .io textarea {
@@ -102,8 +136,12 @@ import { onMount, tick } from 'svelte';
       </select>
     
       {#if type === 'collection' || type === 'dictionary'}
-        <label for="l2e-structure">Structure (put in <span>"[KEY]"</span> to replace with key, or <span>"[INDEX]"</span> with index)</label>
+        <label for="l2e-structure">Structure (in JS)</label>
         <textarea bind:value={structure} id="l2e-structure" on:keyup={transform}></textarea>
+        <small>
+          Put in <code>"[KEY]"</code> to replace with key, or <code>"[INDEX]"</code> with index).<br>
+          This does not need to be valid JSON as it gets run through <code>eval()</code>- you can use <code>[KEY]</code> and <code>[INDEX]</code> without quotes, if you like.
+        </small>
       {/if}
     
     </div>

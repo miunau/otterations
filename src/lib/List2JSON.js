@@ -21,25 +21,17 @@ function parseEnum(input, delimiter, inputOptions) {
   return output;
 }
 
-function replaceInObj(obj, replKey, replIndex) {
-  Object.keys(obj).forEach((key, index) => {
-    const o = obj[key];
-    if(typeof o === 'string') {
-      //console.log(key, obj[key]);
-      obj[key] = obj[key].replace(/\[KEY\]/g, replKey);
-      obj[key] = obj[key].replace(/\[INDEX\]/g, replIndex);
-    }
-  });
-  return obj;
-}
-
 function parseCollection(input, delimiter, structure, keyAttr, inputOptions) {
   let output = [];
   input.split(delimiter).forEach((item, index) => {
     const _item = clean(item, inputOptions);
     if(_item !== "") {
-      let newItem = Object.assign({}, JSON.parse(structure));
-      output.push(Object.assign({}, replaceInObj(newItem, _item, index)));
+      let replacedStructure = structure
+        .replace(/\[KEY\]/g, _item)
+        .replace(/\[INDEX\]/g, index);
+      const structureObj = eval('(' + replacedStructure + ')');
+      let newItem = Object.assign({}, structureObj);
+      output.push(Object.assign({}, newItem));
     }
   });
   return output;
@@ -47,9 +39,16 @@ function parseCollection(input, delimiter, structure, keyAttr, inputOptions) {
 
 function parseDictionary(input, delimiter, structure, inputOptions) {
   let output = {};
-  input.split(delimiter).forEach(item => {
+  input.split(delimiter).forEach((item, index) => {
     const _item = clean(item, inputOptions);
-    if(_item !== "") output[_item] = Object.assign({}, JSON.parse(structure));
+    if(_item !== "") {
+      let replacedStructure = structure
+        .replace(/\[KEY\]/g, _item)
+        .replace(/\[INDEX\]/g, index);
+      const structureObj = eval('(' + replacedStructure + ')');
+      let newItem = Object.assign({}, structureObj);
+      output[_item] = Object.assign({}, newItem);
+    }
   });
   return output;
 }

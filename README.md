@@ -2,6 +2,8 @@
 
 some ottery scaffolding/refactoring tools to make your life lazier
 
+[web version here](https://miunau.com/otterations/)
+
 ## Get started
 
 Install the dependencies...
