@@ -58,6 +58,13 @@ export default function List2List({
     return o.split(delimiter).map(oo => clean(oo, inputOptions));
   });
 
+  if(inputOptions.indexOf('sort') > -1) {
+    input = input.sort();
+    otherInputs = otherInputs.map(o => {
+      return o.sort();
+    });
+  }
+
   switch(type) {
     case 'json: array':
       output = input;

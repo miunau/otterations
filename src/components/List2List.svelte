@@ -133,6 +133,10 @@
           <input type="checkbox" bind:group={inputOptions} value="removeQuotes" id="l2e-remove-quotes" on:change={transform} />
           <label for="l2e-remove-quotes">Remove quotes from input</label>
         </div>
+        <div class="checkbox">
+          <input type="checkbox" bind:group={inputOptions} value="sort" id="l2e-sort" on:change={transform} />
+          <label for="l2e-sort">Sort input alphabetically</label>
+        </div>
       </div>
     
     </div>
