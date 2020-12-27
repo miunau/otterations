@@ -1,6 +1,7 @@
 {
   "name": "otterations",
   "version": "1.0.0",
+  "main": "src/index.js",
   "scripts": {
     "build": "rollup -c",
     "dev": "PORT=5050 rollup -c -w",
