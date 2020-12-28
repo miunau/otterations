@@ -65,7 +65,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    border-top: 1px solid #ccc;
+    border-top: 1px dotted #ccc;
     padding-top: 24px;
     margin-top: 24px;
     padding-bottom: 12px;
@@ -101,9 +101,6 @@
     <li>A JSON array, enum, collection or dictionary. <a on:click={(e) => { e.preventDefault(); showme('json'); }}>Show me!</a></li>
     <li>A MatLab list. <a on:click={(e) => { e.preventDefault(); showme('matlab'); }}>Show me!</a></li>
   </ul>
-
-  <p><a href="https://github.com/miunau/otterations">Github</a></p>
-
   <div class="io">
     <div class="input">
 
@@ -159,7 +156,7 @@
         <small>
           <b>This gets run through <code>eval()</code>.</b> Use <code>"key"</code> to replace with the current list item, or <code>"index"</code> with the index of the current list item.<br>
           {#if otherInputs.length}
-            <b>You have added other inputs.</b> Access them with <code>input[0][index]</code>, <code>input[1][index]</code> etc.
+            <b>You have added other inputs.</b> Access them with <code>inputs[0][index]</code>, <code>inputs[1][index]</code> etc.
           {/if}
         </small>
       {/if}

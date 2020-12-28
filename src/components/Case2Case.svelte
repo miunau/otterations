@@ -1,34 +1,44 @@
 <script>
-  import { tick } from 'svelte';
+import { onMount } from 'svelte';
+
   
-    import List2List from '../lib/List2List';
+    import Case2Case, { Type } from '../lib/Case2Case';
   
-    let input = '';
+    let input = 'fooBar,\nBAR_BAZ,\nBazBoo';
     let output = '';
-    let delimiter = ',';
-    let type = 'enum';
-    let types = [
-      'camelCase',
-      'under_score',
-      'PascalCase',
-      'UPPERCASE',
-      'lowercase'
-    ];
+    let type = 'camelCase';
+    let normalizeType = 'pascalCase';
+    let delimiter = '';
+    let stripRegexp = '/[^A-Z0-9]/gi';
+    let splitRegexp = '';
+    let inputOptions = [];
   
     function transform() {
-      output = JSON.stringify(List2List({ input, delimiter, type, structure }), null, 2);
+      output = Case2Case({ input, type, normalizeType, delimiter, splitRegexp, stripRegexp, inputOptions });
     }
   
     function showme(e) {
       e.preventDefault();
-      input = 'foo,\nbar,\nbaz';
+      input = `foo_bar_baz
+Foo_Bar_BAZ
+_foo_BAR
+fooBarBaz
+FooBarBaz
+FOO_BAR_BAZ`;
+      type = 'constantCase';
+      inputOptions = ['joinUnderscores', 'normalize'];
+      console.log(type);
       transform();
     }
+
+    onMount(() => {
+      transform();
+    });
   
   </script>
   
   <style>
-    .List2Enum {
+    .Case2Case {
       width: 100%;
     }
     .io {
@@ -54,32 +64,56 @@
     }
   </style>
   
-  <div class="List2Enum">
+  <div class="Case2Case">
   
-    <h1>Case2Case</h1>
+    <h1>Case to Case</h1>
   
-    <p>Turn from one_type ofCase ToAnother.<br/><a on:click={showme}>Show me!</a></p>
+    <p>Turn from one_type ofCase ToAnother. This uses <a href="https://github.com/blakeembrey/change-case">change-case</a> under the hood. Each line is processed separately.<br/><a on:click={showme}>Show me!</a></p>
   
     <div class="io">
       <div class="input">
   
-        <label for="l2e-input">Input</label>
-        <textarea bind:value={input} on:keyup={transform} id="l2e-input"></textarea>
+        <label for="c2e-input">Input</label>
+        <textarea bind:value={input} on:keyup={transform} id="c2e-input"></textarea>
   
-        <label for="l2e-delimiter">Delimiter</label>
-        <input bind:value={delimiter} on:change={transform} id="l2e-delimiter" />
+        <label for="c2e-split-regexp">Split regexp</label>
+        <input bind:value={splitRegexp} on:keyup={transform} id="c2e-split-regexp" placeholder="(default)" />
+
+        <label for="c2e-strip-regexp">Strip regexp</label>
+        <input bind:value={stripRegexp} on:keyup={transform} id="c2e-strip-regexp" placeholder="(default)" />
+
+        <div class="checkboxes">
+          <div class="checkbox">
+            <input type="checkbox" bind:group={inputOptions} value="normalize" id="c2e-normalize" on:change={transform} />
+            <label for="c2e-normalize">Pre-process through.. </label>
+            <!-- svelte-ignore a11y-no-onchange -->
+            <select bind:value={normalizeType} id="c2e-normalizeType" on:change={transform}>
+              {#each Object.keys(Type) as t}
+                <option value={t}>{Type[t]}</option>
+              {/each}
+            </select>
+          </div>
+          <div class="checkbox">
+            <input type="checkbox" bind:group={inputOptions} value="joinUnderscores" id="c2e-joinUnderscores" on:change={transform} />
+            <label for="c2e-joinUnderscores">Join underscores</label>
+          </div>
+        </div>
       
       </div>
       <div class="output">
-        <label for="l2e-output">Output</label>
-        <textarea id="l2e-output">{output}</textarea>
-        <label for="l2e-type">Output type</label>
+        <label for="c2e-output">Output</label>
+        <textarea id="c2e-output">{output}</textarea>
+
+        <label for="c2e-type">Output type</label>
         <!-- svelte-ignore a11y-no-onchange -->
-        <select bind:value={type} id="l2e-type" on:change={transform}>
-          {#each types as t}
-            <option value={t}>{t}</option>
+        <select bind:value={type} id="c2e-type" on:change={transform}>
+          {#each Object.keys(Type) as t}
+            <option value={t}>{Type[t]}</option>
           {/each}
         </select>
+
+        <label for="c2e-delimiter">Delimiter</label>
+        <input bind:value={delimiter} on:keyup={transform} id="c2e-delimiter" placeholder="(default)" />
       
       </div>
     </div>
