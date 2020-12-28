@@ -60,36 +60,6 @@
   .List2Enum {
     width: 100%;
   }
-  .io {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    border-top: 1px dotted #ccc;
-    padding-top: 24px;
-    margin-top: 24px;
-    padding-bottom: 12px;
-  }
-  .io .input {
-    flex: 1 1;
-    width: 50%;
-    padding-right: 12px;
-  }
-  .io .output {
-    flex: 1 1;
-    width: 50%;
-    padding-left: 12px;
-  }
-  .io textarea {
-    display: block;
-    width: 100%;
-    min-height: 320px;
-    margin: 0;
-    resize: vertical;
-  }
-  .remove {
-    float: right;
-  }
 </style>
 
 <div class="List2Enum">

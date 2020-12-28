@@ -41,28 +41,8 @@ FOO_BAR_BAZ`;
     .Case2Case {
       width: 100%;
     }
-    .io {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      width: 100%;
-      padding-bottom: 12px;
-    }
-    .io .input {
-      flex-grow: 1;
-      padding-right: 12px;
-    }
-    .io .output {
-      flex-grow: 1;
-      padding-left: 12px;
-    }
-    .io textarea {
-      display: block;
-      width: 100%;
-      min-height: 320px;
-      margin: 0;
-    }
   </style>
+
   
   <div class="Case2Case">
   
